@@ -1,0 +1,18 @@
+# Normalize line endings: Prettier writes LF, so keep LF in the repo and in
+# working copies. Without this, core.autocrlf=true on Windows checks files out
+# as CRLF and every `prettier --write` fights git over the diff.
+* text=auto eol=lf
+
+# Binary files git must never touch.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.pdf binary
+
+# Generated — collapse in diffs and skip in language stats.
+package-lock.json linguist-generated=true -diff
+generated/** linguist-generated=true

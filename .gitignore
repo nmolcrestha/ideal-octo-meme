@@ -32,6 +32,8 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# ...but the checked-in template must stay tracked.
+!.env.example
 
 # vercel
 .vercel
@@ -39,3 +41,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# prisma (generated client - recreated by `npm run db:generate`)
+/generated
+
+# prisma agent skills (installed by `prisma init`).
+# .claude/skills and .windsurf/skills are machine-specific ABSOLUTE symlinks
+# into .agents/skills, so they are not portable across clones.
+# Remove these lines if you'd rather commit the skill docs.
+.claude/skills/
+.windsurf/
+.agents/
+skills-lock.json
