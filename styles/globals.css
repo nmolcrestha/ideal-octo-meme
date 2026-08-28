@@ -1,0 +1,43 @@
+/**
+ * The single Tailwind entry point, imported once from app/layout.tsx.
+ *
+ * Everything below is a partial pulled in by @import, which CSS inlines into
+ * this file — so the whole project is one Tailwind pass and utilities are
+ * generated exactly once. That matters for two reasons:
+ *
+ *   1. `@theme` only produces utilities inside a file that imports Tailwind.
+ *      Splitting a partial off into its own entry would define the variables
+ *      but never generate the `bg-sidebar` / `text-chart-1` classes.
+ *   2. Next.js does not unload a global stylesheet on navigation (it uses
+ *      React's stylesheet support so it can integrate with Suspense), so
+ *      importing `dashboard.css` from the dashboard layout would leak into the
+ *      site after a client-side navigation instead of scoping to the route.
+ *
+ * Separation here is therefore by FILE, not by bundle. Order is significant:
+ * variants and token values must precede the @theme blocks that read them,
+ * and the base layer comes last so it can use the finished scale.
+ */
+
+@import 'tailwindcss';
+@import 'tw-animate-css';
+/* Supplies the data-open / data-closed variants and keyframes that the
+   components in components/ui depend on. Do not remove. */
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+/* --- Token values ------------------------------------------------------- */
+/* Shared across both entities. */
+@import './tokens.css';
+/* Owned by the dashboard: sidebar, charts, status colors. */
+@import './dashboard/tokens.css';
+/* Owned by the public site. */
+@import './site/tokens.css';
+
+/* --- Tailwind bindings -------------------------------------------------- */
+@import './theme.css';
+@import './dashboard/theme.css';
+@import './site/theme.css';
+
+/* --- Base layer --------------------------------------------------------- */
+@import './base.css';

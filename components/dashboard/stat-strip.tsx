@@ -1,6 +1,6 @@
 import { ArrowDownRightIcon, ArrowUpRightIcon, InfoIcon } from 'lucide-react'
 
-import type { Metric } from '@/lib/dashboard-data'
+import type { Metric } from '@/lib/dashboard/data'
 import { cn } from '@/lib/utils'
 import {
   Tooltip,

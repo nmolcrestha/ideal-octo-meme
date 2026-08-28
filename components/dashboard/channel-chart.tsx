@@ -2,7 +2,7 @@
 
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from 'recharts'
 
-import type { ChannelPoint } from '@/lib/dashboard-data'
+import type { ChannelPoint } from '@/lib/dashboard/data'
 import {
   Card,
   CardContent,

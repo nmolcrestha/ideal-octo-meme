@@ -1,0 +1,87 @@
+/**
+ * Dashboard-owned token values: the sidebar surface, the chart series, and the
+ * status vocabulary an Operate surface needs. Nothing on the public site reads
+ * these, so they can change without a site regression.
+ *
+ * Every deviation from the supplied design file is recorded with the
+ * measurement that forced it — see docs/dashboard-tokens.md for the full
+ * derivation and how to re-run the checks.
+ */
+
+:root {
+  /* --- Sidebar ---------------------------------------------------------- */
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+
+  /* --- Chart series ----------------------------------------------------- */
+  /* chart-1 + chart-2 are the only pair here that clears CVD separation, the
+     lightness band and contrast on BOTH surfaces (adjacent deltaE 14.8 protan).
+     chart-4 and chart-5 are deltaE 7.4 apart to normal vision, which is why the
+     charts never use more than two of these as a categorical set. */
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+
+  /* --- Status fills ----------------------------------------------------- */
+  /* The base design file ships no success/warning; these extend it in the same
+     oklch space. Tuned to be filled, not read. */
+  --success: oklch(0.596 0.145 163.225);
+  --success-foreground: oklch(0.985 0 0);
+  --warning: oklch(0.769 0.188 70.08);
+  --warning-foreground: oklch(0.216 0.04 70.08);
+
+  /* --- Status ink ------------------------------------------------------- */
+  /* The same hues re-stepped for legibility as text. The fills above measure
+     3.67:1 (success) and 2.15:1 (warning) as text on white — under the 4.5:1
+     AA floor for small text. These are solved against the harder of the two
+     backgrounds they appear on, a 10% tint of their own hue over the card:
+     4.58:1 there, 4.95-5.46:1 on the plain card.
+     Use --*-ink for glyphs, --success/--warning/--destructive for fills. */
+  --success-ink: oklch(0.508 0.145 163.225);
+  --warning-ink: oklch(0.552 0.16 70.08);
+  --destructive-ink: oklch(0.53 0.245 27.325);
+}
+
+.dark {
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.439 0 0);
+
+  /* chart-1 and chart-2 deliberately hold their light-mode steps. The stock
+     dark values (blue oklch(0.488 …) / green oklch(0.696 …)) reach only 2.55:1
+     against this near-black surface and fall outside the L 0.48-0.67 band,
+     whereas these two measure >=3:1 with an adjacent CVD deltaE of 14.8.
+     Holding them also means a series keeps its hue when the theme flips. */
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+
+  --success: oklch(0.696 0.17 162.48);
+  --success-foreground: oklch(0.205 0 0);
+  --warning: oklch(0.769 0.188 70.08);
+  --warning-foreground: oklch(0.205 0 0);
+
+  /* On the dark surface the fill steps are already legible (8.03 / 9.23:1), so
+     ink matches them. Red is the exception: --destructive is L 0.396 here and
+     measures 1.97:1 as text — effectively unreadable — so ink takes the
+     brighter step the design file already defines as --destructive-foreground,
+     which measures 5.18:1. */
+  --success-ink: oklch(0.696 0.17 162.48);
+  --warning-ink: oklch(0.769 0.188 70.08);
+  --destructive-ink: oklch(0.637 0.237 25.331);
+}

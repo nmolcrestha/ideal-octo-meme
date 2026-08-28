@@ -1,0 +1,73 @@
+/**
+ * Base layer: element defaults and the browser-owned surfaces.
+ *
+ * Applies to both entities. Anything only one of them needs belongs in that
+ * entity's own stylesheet or, better, in a component's classes.
+ */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-sans;
+    /* Anchored scrolling clears the sticky headers on both entities. */
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    /* Keeps the layout from shifting sideways when a dialog locks scroll. */
+    scrollbar-gutter: stable;
+  }
+
+  /* --- Browser surfaces -------------------------------------------------
+     The parts we did not draw still carry the design. Left at their defaults,
+     these are the clearest tell that a UI was assembled rather than built. */
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--primary) 22%, transparent);
+    color: var(--foreground);
+  }
+
+  :root {
+    caret-color: var(--primary);
+    /* Themed scrollbars via the standard properties rather than the
+       -webkit-scrollbar pseudo-elements, so Firefox is covered too. */
+    scrollbar-color: color-mix(in oklab, var(--foreground) 22%, transparent)
+      transparent;
+    scrollbar-width: thin;
+  }
+
+  /* One consistent focus ring across every control. :focus-visible only, so
+     pointer clicks stay quiet while keyboard users always see where they are. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  /* Figures must not jitter between values. Scoped to the elements that carry
+     data rather than applied globally, so prose keeps proportional digits. */
+  th,
+  td,
+  data,
+  time,
+  .tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  /* Respect the OS reduced-motion setting, including for the tw-animate-css
+     enter/exit animations the Radix components use. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

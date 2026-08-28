@@ -1,0 +1,20 @@
+/**
+ * Site-owned token values: the public marketing surface.
+ *
+ * Kept deliberately small. The site inherits the shared palette and adds only
+ * what it alone needs — a nav height the sticky header and its scroll offset
+ * both have to agree on, a content measure, and a quiet band used to separate
+ * full-width sections without introducing a second card style.
+ */
+
+:root {
+  --site-nav-height: 3.5rem;
+  /* Reading measure for prose sections. */
+  --site-measure: 68ch;
+  /* Section band, a hair off the page background rather than a new surface. */
+  --site-band: oklch(0.985 0 0);
+}
+
+.dark {
+  --site-band: oklch(0.185 0 0);
+}

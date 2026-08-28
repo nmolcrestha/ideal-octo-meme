@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 import { CustomersTable } from '@/components/dashboard/customers-table'
 import { DashboardHeader } from '@/components/dashboard/dashboard-header'
-import { getCustomers } from '@/lib/dashboard-data'
+import { getCustomers } from '@/lib/dashboard/data'
 
 export const metadata: Metadata = { title: 'Customers' }
 

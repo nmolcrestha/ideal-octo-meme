@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 import { ActivityFeed } from '@/components/dashboard/activity-feed'
 import { DashboardHeader } from '@/components/dashboard/dashboard-header'
-import { getActivity } from '@/lib/dashboard-data'
+import { getActivity } from '@/lib/dashboard/data'
 
 export const metadata: Metadata = { title: 'Activity' }
 

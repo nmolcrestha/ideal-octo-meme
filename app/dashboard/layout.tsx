@@ -4,12 +4,10 @@ import { AppSidebar } from '@/components/dashboard/app-sidebar'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { TooltipProvider } from '@/components/ui/tooltip'
 
+// The "%s · Sightline" template is set once in the root layout; this only
+// needs the default for /dashboard itself, which child pages then override.
 export const metadata: Metadata = {
-  title: {
-    template: '%s · Sightline',
-    default: 'Dashboard · Sightline',
-  },
-  description: 'Revenue, retention and account activity for your workspace.',
+  title: 'Dashboard',
 }
 
 export default function DashboardLayout({

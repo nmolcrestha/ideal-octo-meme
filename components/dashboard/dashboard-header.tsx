@@ -4,7 +4,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import { BellIcon, PlusIcon, SearchIcon } from 'lucide-react'
 
-import { ThemeToggle } from '@/components/theme-toggle'
+import { ThemeToggle } from '@/components/shared/theme-toggle'
 import { Button } from '@/components/ui/button'
 import {
   Breadcrumb,

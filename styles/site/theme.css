@@ -1,0 +1,9 @@
+/**
+ * Tailwind bindings for the site tokens in styles/site/tokens.css.
+ */
+
+@theme inline {
+  --color-site-band: var(--site-band);
+  --spacing-site-nav: var(--site-nav-height);
+  --container-site-measure: var(--site-measure);
+}

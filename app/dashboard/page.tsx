@@ -10,7 +10,7 @@ import {
   getCustomers,
   getMetrics,
   getRevenueSeries,
-} from '@/lib/dashboard-data'
+} from '@/lib/dashboard/data'
 
 export default async function DashboardPage() {
   // Fetched together rather than in series: none of these depend on another,
