@@ -45,8 +45,13 @@ export function SiteHeader() {
 
         <div className="ml-auto flex items-center gap-1.5">
           <ThemeToggle />
-          <Button variant="ghost" size="sm" className="hidden sm:inline-flex">
-            Sign in
+          <Button
+            variant="ghost"
+            size="sm"
+            asChild
+            className="hidden sm:inline-flex"
+          >
+            <Link href="/login">Sign in</Link>
           </Button>
           <Button size="sm" asChild>
             <Link href="/dashboard">Open dashboard</Link>
@@ -95,10 +100,11 @@ export function SiteHeader() {
               <Button
                 variant="ghost"
                 size="sm"
+                asChild
                 className="w-full justify-start"
                 onClick={() => setOpen(false)}
               >
-                Sign in
+                <Link href="/login">Sign in</Link>
               </Button>
             </li>
           </ul>

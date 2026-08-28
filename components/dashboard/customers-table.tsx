@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ArrowRightIcon, MoreHorizontalIcon } from 'lucide-react'
 
-import { formatCurrency, type Customer } from '@/lib/dashboard/data'
+import { formatCurrency, type Customer } from '@/lib/dashboard/types'
 import { StatusBadge } from '@/components/dashboard/status-badge'
 import { EmptyState } from '@/components/dashboard/empty-state'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'

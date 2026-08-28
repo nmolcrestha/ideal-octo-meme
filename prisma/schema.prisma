@@ -13,11 +13,26 @@ datasource db {
   // and at runtime by the driver adapter in `lib/prisma.ts`.
 }
 
-// Define your models below. Example:
-//
-// model User {
-//   id        String   @id @default(uuid())
-//   email     String   @unique
-//   name      String?
-//   createdAt DateTime @default(now())
-// }
+/// An account that can sign in to the dashboard.
+///
+/// Sessions are stateless (a signed JWT in an httpOnly cookie, see
+/// `lib/auth/session.ts`), so there is no sessions table — the cookie carries
+/// the user id and `lib/auth/dal.ts` resolves it against this model on every
+/// request that needs the user.
+model User {
+  id String @id @default(uuid()) @db.Uuid
+
+  /// Lowercased on write so lookups are case-insensitive without a functional
+  /// index — see `normalizeEmail()` in lib/auth/definitions.ts.
+  email String @unique
+
+  name String
+
+  /// bcrypt digest. Never select this into anything that leaves the server.
+  passwordHash String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}

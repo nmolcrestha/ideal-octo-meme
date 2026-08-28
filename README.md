@@ -16,6 +16,31 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Authentication
+
+`/dashboard` requires a signed-in user, so set this up before the first run:
+
+```bash
+cp .env.example .env        # then fill in DATABASE_URL and SESSION_SECRET
+npm run db:migrate          # create the users table
+npm run db:seed             # create the account you sign in with
+```
+
+`npm run db:seed` prints the credentials it created. By default they are
+`anmol@mandarix.com` / `sightline123`; override them with `SEED_USER_EMAIL` and
+`SEED_USER_PASSWORD` in `.env`. The seed is idempotent, so re-running it resets
+that account's password rather than failing.
+
+How it fits together:
+
+| File                    | Role                                                                                                                  |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `proxy.ts`              | Redirects anonymous requests away from `/dashboard` by reading the session cookie. Optimistic only — never the guard. |
+| `lib/auth/session.ts`   | Signs and verifies the session JWT.                                                                                   |
+| `lib/auth/dal.ts`       | The real guard. Resolves the cookie against the database; `requireUser()` fails closed.                               |
+| `app/actions/auth.ts`   | The `login` and `logout` Server Actions.                                                                              |
+| `lib/dashboard/data.ts` | Every fetcher calls `verifySession()`, so no page can read dashboard data unauthenticated.                            |
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

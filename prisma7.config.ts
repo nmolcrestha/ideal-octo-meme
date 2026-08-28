@@ -7,6 +7,9 @@ export default defineConfig({
   schema: 'prisma/schema.prisma',
   migrations: {
     path: 'prisma/migrations',
+    // Lets `prisma migrate dev` / `migrate reset` re-create the login account
+    // automatically after they drop the database.
+    seed: 'tsx prisma/seed.ts',
   },
   datasource: {
     url: process.env['DATABASE_URL'],

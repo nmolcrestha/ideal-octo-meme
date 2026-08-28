@@ -14,6 +14,8 @@ import {
   UsersIcon,
 } from 'lucide-react'
 
+import { logout } from '@/app/actions/auth'
+import type { SessionUser } from '@/lib/auth/definitions'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -61,7 +63,16 @@ const NAV = [
   },
 ] as const
 
-export function AppSidebar() {
+/** First letters of the first and last word, so "Anmol Shrestha" reads AS. */
+function initials(name: string) {
+  const words = name.trim().split(/s+/).filter(Boolean)
+  if (words.length === 0) return '?'
+  const first = words[0][0]
+  const last = words.length > 1 ? words[words.length - 1][0] : ''
+  return (first + last).toUpperCase()
+}
+
+export function AppSidebar({ user }: { user: SessionUser }) {
   const pathname = usePathname()
 
   // Exact match for the index so it does not stay lit on every child route;
@@ -163,13 +174,13 @@ export function AppSidebar() {
                 >
                   <Avatar className="size-8 rounded-md">
                     <AvatarFallback className="rounded-md text-xs">
-                      AS
+                      {initials(user.name)}
                     </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left leading-tight">
-                    <span className="truncate font-medium">Anmol Shrestha</span>
+                    <span className="truncate font-medium">{user.name}</span>
                     <span className="text-muted-foreground truncate text-xs">
-                      anmol@mandarix.com
+                      {user.email}
                     </span>
                   </div>
                   <ChevronsUpDownIcon className="ml-auto size-4" />
@@ -182,7 +193,7 @@ export function AppSidebar() {
                 className="w-56"
               >
                 <DropdownMenuLabel className="text-muted-foreground text-xs font-normal">
-                  Signed in as anmol@mandarix.com
+                  Signed in as {user.email}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
@@ -198,10 +209,17 @@ export function AppSidebar() {
                   Settings
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem variant="destructive">
-                  <LogOutIcon className="size-4" />
-                  Sign out
-                </DropdownMenuItem>
+                {/* A form rather than an onClick: signing out clears an
+                    httpOnly cookie, which only the server can do. This also
+                    keeps it working before hydration. */}
+                <form action={logout}>
+                  <DropdownMenuItem variant="destructive" asChild>
+                    <button type="submit" className="w-full">
+                      <LogOutIcon className="size-4" />
+                      Sign out
+                    </button>
+                  </DropdownMenuItem>
+                </form>
               </DropdownMenuContent>
             </DropdownMenu>
           </SidebarMenuItem>

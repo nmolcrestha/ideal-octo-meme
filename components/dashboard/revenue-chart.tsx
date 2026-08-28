@@ -3,8 +3,8 @@
 import * as React from 'react'
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts'
 
-import type { RevenuePoint } from '@/lib/dashboard/data'
-import { formatCompactCurrency, formatCurrency } from '@/lib/dashboard/data'
+import type { RevenuePoint } from '@/lib/dashboard/types'
+import { formatCompactCurrency, formatCurrency } from '@/lib/dashboard/types'
 import {
   Card,
   CardAction,

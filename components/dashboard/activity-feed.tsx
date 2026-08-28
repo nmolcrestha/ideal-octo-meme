@@ -5,7 +5,7 @@ import {
   UserRoundIcon,
 } from 'lucide-react'
 
-import type { ActivityItem } from '@/lib/dashboard/data'
+import type { ActivityItem } from '@/lib/dashboard/types'
 import {
   Card,
   CardContent,

@@ -5,7 +5,7 @@ import {
   ClockIcon,
 } from 'lucide-react'
 
-import { STATUS_LABELS, type CustomerStatus } from '@/lib/dashboard/data'
+import { STATUS_LABELS, type CustomerStatus } from '@/lib/dashboard/types'
 import { cn } from '@/lib/utils'
 
 /**

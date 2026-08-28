@@ -1,5 +1,24 @@
+import 'server-only'
+
+import { verifySession } from '@/lib/auth/dal'
+import type {
+  ActivityItem,
+  ChannelPoint,
+  Customer,
+  Metric,
+  RevenuePoint,
+} from '@/lib/dashboard/types'
+
 /**
  * Dashboard data access.
+ *
+ * Every function here calls `verifySession()` first. The check lives beside
+ * the data rather than in the pages on purpose: app/dashboard/layout.tsx does
+ * not re-render on a client-side navigation between dashboard routes, so a
+ * layout-only guard would stop being enforced the moment someone moved from
+ * /dashboard to /dashboard/customers. Putting it here means no future page can
+ * read this data without being authenticated, whether or not its author
+ * remembered to ask.
  *
  * These are async by design: every function has the shape it would have if it
  * were querying Postgres, so swapping the fixture for a real query is a
@@ -14,57 +33,9 @@
  * content that does not cooperate.
  */
 
-export type Trend = 'up' | 'down'
-
-export type Metric = {
-  id: string
-  label: string
-  /** Pre-formatted for display; keep raw values out of the view layer. */
-  value: string
-  /** Percentage change against the comparison window. */
-  delta: number
-  trend: Trend
-  /** What the delta is measured against, shown beside it. */
-  comparison: string
-  /** True when an increase is bad (churn, refunds). Drives the delta color. */
-  inverse?: boolean
-  hint: string
-}
-
-export type RevenuePoint = {
-  month: string
-  recurring: number
-  expansion: number
-}
-
-export type ChannelPoint = {
-  channel: string
-  signups: number
-}
-
-export type CustomerStatus = 'active' | 'trialing' | 'past_due' | 'churned'
-
-export type Customer = {
-  id: string
-  name: string
-  email: string
-  plan: 'Starter' | 'Growth' | 'Scale' | 'Enterprise'
-  status: CustomerStatus
-  mrr: number
-  seats: number
-  joined: string
-}
-
-export type ActivityItem = {
-  id: string
-  actor: string
-  action: string
-  target: string
-  at: string
-  kind: 'billing' | 'account' | 'security' | 'usage'
-}
-
 export async function getMetrics(): Promise<Metric[]> {
+  await verifySession()
+
   return [
     {
       id: 'mrr',
@@ -107,6 +78,8 @@ export async function getMetrics(): Promise<Metric[]> {
 }
 
 export async function getRevenueSeries(): Promise<RevenuePoint[]> {
+  await verifySession()
+
   return [
     { month: 'Mar', recurring: 29400, expansion: 3100 },
     { month: 'Apr', recurring: 31200, expansion: 3600 },
@@ -124,6 +97,8 @@ export async function getRevenueSeries(): Promise<RevenuePoint[]> {
 }
 
 export async function getChannels(): Promise<ChannelPoint[]> {
+  await verifySession()
+
   return [
     { channel: 'Organic search', signups: 1284 },
     { channel: 'Direct', signups: 962 },
@@ -134,6 +109,8 @@ export async function getChannels(): Promise<ChannelPoint[]> {
 }
 
 export async function getCustomers(): Promise<Customer[]> {
+  await verifySession()
+
   return [
     {
       id: 'cus_8fj2',
@@ -219,6 +196,8 @@ export async function getCustomers(): Promise<Customer[]> {
 }
 
 export async function getActivity(): Promise<ActivityItem[]> {
+  await verifySession()
+
   return [
     {
       id: 'act_1',
@@ -269,29 +248,4 @@ export async function getActivity(): Promise<ActivityItem[]> {
       kind: 'account',
     },
   ]
-}
-
-/** Currency for table cells and axis ticks. No cents: dashboards read faster. */
-export function formatCurrency(value: number): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 0,
-  }).format(value)
-}
-
-export function formatCompactCurrency(value: number): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    notation: 'compact',
-    maximumFractionDigits: 1,
-  }).format(value)
-}
-
-export const STATUS_LABELS: Record<CustomerStatus, string> = {
-  active: 'Active',
-  trialing: 'Trialing',
-  past_due: 'Past due',
-  churned: 'Churned',
 }

@@ -18,10 +18,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { verifySession } from '@/lib/auth/dal'
 
 export const metadata: Metadata = { title: 'Settings' }
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  // This page renders no data of its own, so there is nothing in
+  // lib/dashboard/data.ts to carry the guard for it. Layouts do not
+  // re-render on client-side navigation, so the check has to be here.
+  await verifySession()
+
   return (
     <>
       <DashboardHeader

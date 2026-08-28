@@ -3,10 +3,16 @@ import { CreditCardIcon } from 'lucide-react'
 
 import { DashboardHeader } from '@/components/dashboard/dashboard-header'
 import { EmptyState } from '@/components/dashboard/empty-state'
+import { verifySession } from '@/lib/auth/dal'
 
 export const metadata: Metadata = { title: 'Billing' }
 
-export default function BillingPage() {
+export default async function BillingPage() {
+  // This page renders no data of its own, so there is nothing in
+  // lib/dashboard/data.ts to carry the guard for it. Layouts do not
+  // re-render on client-side navigation, so the check has to be here.
+  await verifySession()
+
   return (
     <>
       <DashboardHeader
